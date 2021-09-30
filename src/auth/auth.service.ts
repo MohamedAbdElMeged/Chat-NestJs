@@ -7,6 +7,9 @@ import { User } from 'src/user/user.entity';
 import { profileUserDto } from 'src/user/dto/profileUser.dto';
 @Injectable()
 export class AuthService {
+    validateToken(jwt: any) {
+        return this.jwtService.verify(jwt);
+    }
     constructor(
         private userService: UserService,
         private jwtService: JwtService

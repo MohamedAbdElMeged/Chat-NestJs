@@ -1,4 +1,4 @@
-import { Controller, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { ConversationService } from './conversation.service';
 
@@ -12,5 +12,10 @@ export class ConversationController {
     @Post("/create")
     async create(@Req() req , @Res() res){
         return await res.json(await this.conversationService.create(req.user, req.body ))
+    }
+
+    @Get()
+    async getConve(@Res() res){
+        return await res.json({conversations: await this.conversationService.getConversations()})
     }
 }

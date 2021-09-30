@@ -6,6 +6,7 @@ import { Conversation } from './conversation.entity';
 
 @Injectable()
 export class ConversationService {
+
     constructor(
         @Inject("CONVERSATION_REPOSITORY")
         private conversationRepository: Repository<Conversation>,
@@ -22,5 +23,13 @@ export class ConversationService {
     
     async getConversationById(id:number){
         return await this.conversationRepository.findOne({id})
+    }
+    async getConversations() {
+    //  return await this.conversationRepository.find({relations: ["users","messages"]})
+    return await this.conversationRepository.createQueryBuilder("conv")
+    .leftJoinAndSelect("conv.users","users")
+    .leftJoinAndSelect("conv.messages","message")
+    .leftJoinAndSelect("message.user","user")
+    .getMany()
     }
 }
